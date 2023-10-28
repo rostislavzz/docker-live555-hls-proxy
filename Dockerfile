@@ -15,8 +15,12 @@ RUN cd /tmp/live && ./genMakefiles linux && \
   make && make install && make distclean
 
 FROM alpine
-RUN apk add --update --no-cache gcc
+RUN apk add --update --no-cache gcc lighttpd && \
+   rc-update add lighttpd default
+
 COPY --from=builder /usr/local/bin/live555HLSProxy /usr/local/bin/
+
+WORKDIR /var/www/localhost/htdocs/
 
 EXPOSE 80
 
