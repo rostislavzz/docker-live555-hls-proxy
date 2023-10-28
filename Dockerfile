@@ -18,7 +18,6 @@ FROM alpine
 RUN apk add --update --no-cache gcc
 COPY --from=builder /usr/local/bin/live555HLSProxy /usr/local/bin/
 
-EXPOSE 554
-EXPOSE 8554
+EXPOSE 80
 
 ENTRYPOINT ["live555HLSProxy"]
