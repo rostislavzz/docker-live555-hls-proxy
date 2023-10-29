@@ -15,13 +15,14 @@ RUN cd /tmp/live && ./genMakefiles linux && \
   make && make install && make distclean
 
 FROM alpine
-RUN apk add --update --no-cache gcc lighttpd && \
-   rc-update add lighttpd default
+RUN apk add --update --no-cache libstdc++ lighttpd
 
 COPY --from=builder /usr/local/bin/live555HLSProxy /usr/local/bin/
+COPY docker-entrypoint.sh /usr/local/bin
 
 WORKDIR /var/www/localhost/htdocs/
+COPY index.html ./
 
 EXPOSE 80
 
-ENTRYPOINT ["live555HLSProxy"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
